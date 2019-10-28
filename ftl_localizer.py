@@ -13,7 +13,7 @@ EMPTY_XML = '<?xml version="1.0" encoding="utf-8"?> \
 SUPPORTED_LANGUAGES = {'de', 'es', 'fr', 'it', 'pl', 'pt', 'ru', 'zh-Hans'}
 
 ALL_TAGS = {'text', 'class', 'desc', 'title', 'short', 'tooltip',
-            'unlock', 'flavorType', 'power', 'crewMember'}
+            'name', 'unlock', 'flavorType', 'power', 'crewMember'}
 
 BLUEPRINT_TAGS = {'class', 'desc', 'title', 'short', 'tooltip',
                   'unlock', 'flavorType'}
@@ -341,6 +341,9 @@ def localize(workdir, outputdir, language_attr, check_same_strings=False, split_
                                  f'{get_child_str(parent_list[:-3])}'
                 elif tag.name in BLUEPRINT_TAGS:
                     if parent_top.name[-9:] == 'Blueprint':
+                        result = f'{parent_top.name[:-9]}{get_attr(parent_top)}_{tag.name}'
+                elif tag.name == 'name':
+                    if parent_top.name == 'shipBlueprint':
                         result = f'{parent_top.name[:-9]}{get_attr(parent_top)}_{tag.name}'
                 elif tag.name == 'power':
                     if parent_top.name == 'crewBlueprint' and parent_list[0].name == 'powerList':
